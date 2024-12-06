@@ -9,13 +9,12 @@ function index(req, res) {
     const sql = 'SELECT * FROM posts';
 
     connection.query(sql, (err, results) => {
-        console.log('Query eseguita:', sql);
-
-        console.log('Query eseguita:', sql);
-        if (err) return res.status(500).json({ error: 'Database query failed' });
-
-        res.status(200).json(results);
-
+        if (err) return res.status(500).json({ error: err })
+        const responseData = {
+            data: results,
+            counter: results.length
+        }
+        res.status(200).json(responseData)
     })
 }
 // add show function for get single post
@@ -62,33 +61,13 @@ const store = (req, res) => {
 }
 // add update function for update post
 const update = (req, res) => {
-    const slug = req.body.slug
-    const singlePost = post.find((post) => post.slug.toLowerCase() === slug)
-    console.log(slug);
-
-    if (!singlePost) {
-        return res.status(404).json({
-            error: `Error!: ${slug} was not found `
-        })
-    }
-
-    singlePost.title = req.body.title,
-        singlePost.slug = req.body.slug,
-        singlePost.content = req.body.content,
-        singlePost.image = req.body.image,
-        singlePost.tags = req.body.tags
-    singlePost.id = req.body.id
-
-
-
-    fs.writeFileSync('./db/db.js', `module.exports = ${JSON.stringify(post, null, 4)}`)
-
-    res.send(singlePost)
-    return res.json({
-        status: 201,
-        data: singlePost,
-
-    })
+    const id = req.params.id
+    const sql = 'SELECT * FROM posts WHERE id = ?';
+    connection.query(sql, [id], (err, results) => {
+        if (err) return res.status(500).json({ error: 'Database query failed' });
+        if (results.length === 0) return res.status(404).json({ error: 'post not found' });
+        res.json(results[0]);
+    });
 }
 // add delete function for delete post
 

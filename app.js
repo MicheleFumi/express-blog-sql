@@ -9,7 +9,6 @@ const notFoundMiddleware = require('./middlewares/notFound.js')
 const loggerMiddleware = require('./middlewares/logger.js')
 const serverError = require('./middlewares/serverError.js')
 const cors = require('cors');
-
 app.use(cors())
 
 app.listen(3000, (req, res) => {
