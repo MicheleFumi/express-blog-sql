@@ -1,14 +1,19 @@
 const post = require('../db/db.js')
 const fs = require('fs')
+const connection = require('../db/db_connection.js');
 
 // add index function for get all post
 function index(req, res) {
-    res.json({
-        data: post,
-        count: post.length
+
+    const sql = 'SELECT * FROM recipes_db';
+
+    connection.query(sql, (err, results) => {
+        console.log(sql, results);
+
+        if (err) return res.status(500).json({ error: 'Database query failed' });
+        res.json(results);
+
     })
-
-
 }
 // add show function for get single post
 const show = (req, res) => {
