@@ -6,11 +6,12 @@ const connection = require('../db/db_connection.js');
 function index(req, res) {
     console.log('Funzione index chiamata');
 
-
+    const sql = 'SELECT * FROM posts';
 
     connection.query(sql, (err, results) => {
         console.log('Query eseguita:', sql);
 
+        console.log('Query eseguita:', sql);
         if (err) return res.status(500).json({ error: 'Database query failed' });
 
         res.status(200).json(results);
