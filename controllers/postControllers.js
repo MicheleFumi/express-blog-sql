@@ -75,22 +75,12 @@ const update = (req, res) => {
 // add delete function for delete post
 
 const destroy = (req, res) => {
-    const index = req.params.index
-    const deletedPost = post.splice(index, 1);
-    /*  if (!deletedPost) {
-         return res.status(404).json({
-             error: `Error! post was not found `
-         })
-     } */
+    const { id } = req.params
 
-
-
-    fs.writeFileSync('./db/db.js', `module.exports = ${JSON.stringify(post, null, 4)}`)
-    return res.json({
-        status: 200,
-        data: post,
-        count: deletedPost.length
-    })
+    connection.query('DELETE FROM posts WHERE id = ?', [id], (err) => {
+        if (err) return res.status(500).json({ error: 'Failed to delete post' });
+        res.sendStatus(204)
+    });
 
 }
 

@@ -25,7 +25,7 @@ app.use("/posts", postRouter)
 
 app.put('/:slug', postRouter)
 
-app.delete('/:index', postRouter)
+app.delete('/:id', postRouter)
 
 // MIDDLEWARES FOR ERROR HANDLING
 /* app.use(loggerMiddleware)
