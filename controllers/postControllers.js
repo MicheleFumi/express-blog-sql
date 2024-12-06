@@ -4,14 +4,16 @@ const connection = require('../db/db_connection.js');
 
 // add index function for get all post
 function index(req, res) {
+    console.log('Funzione index chiamata');
 
-    const sql = 'SELECT * FROM recipes_db';
+
 
     connection.query(sql, (err, results) => {
-        console.log(sql, results);
+        console.log('Query eseguita:', sql);
 
         if (err) return res.status(500).json({ error: 'Database query failed' });
-        res.json(results);
+
+        res.status(200).json(results);
 
     })
 }
