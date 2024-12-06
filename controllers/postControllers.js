@@ -4,7 +4,8 @@ const connection = require('../db/db_connection.js');
 
 // add index function for get all post
 function index(req, res) {
-    console.log('Funzione index chiamata');
+
+
 
     const sql = 'SELECT * FROM posts';
 
@@ -21,11 +22,11 @@ function index(req, res) {
 const show = (req, res) => {
     const id = Number(req.params.id)
 
-    console.log(id);
+
 
     const posts = post.find(post => post.id === id)
 
-    console.log(id);
+
     if (!post) {
         return res.status(404).json({
             error: `404! Pizza Not Found!`

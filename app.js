@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 const host = process.env.DB_HOST
-const port = process.env.DB_PORT
+const port = 3000
 app.use(express.static('public'))
 const postRouter = require('./routers/post.js')
 app.use(express.json())
@@ -11,7 +11,7 @@ const serverError = require('./middlewares/serverError.js')
 const cors = require('cors');
 app.use(cors())
 
-app.listen(3000, (req, res) => {
+app.listen(port, () => {
     console.log(`server is running at ${host}:${port} `);
 
 
