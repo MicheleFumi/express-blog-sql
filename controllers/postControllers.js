@@ -11,11 +11,13 @@ function index(req, res) {
 
     connection.query(sql, (err, results) => {
         if (err) return res.status(500).json({ error: err })
+
         const responseData = {
             data: results,
             counter: results.length
         }
         res.status(200).json(responseData)
+
     })
 }
 // add show function for get single post

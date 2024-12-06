@@ -21,11 +21,7 @@ app.listen(port, () => {
 }) */
 
 
-app.use("/post", postRouter)
-
-app.use("/index", postRouter)
-
-app.use("/", postRouter)
+app.use("/posts", postRouter)
 
 app.put('/:slug', postRouter)
 
