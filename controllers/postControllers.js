@@ -24,11 +24,36 @@ function index(req, res) {
 const show = (req, res) => {
     const id = req.params.id
     const sql = 'SELECT * FROM posts WHERE id = ?';
+    const tagSql = `
+    SELECT *
+    FROM tags
+    JOIN post_tag  ON tags.id = post_tag.tag_id
+    WHERE post_tag.post_id = ?
+    `;
+
     connection.query(sql, [id], (err, results) => {
-        if (err) return res.status(500).json({ error: 'Database query failed' });
-        if (results.length === 0) return res.status(404).json({ error: 'post not found' });
-        res.json(results[0]);
-    });
+        if (err) return res.status(500).json({ error: err })
+        if (!results[0]) return res.status(404).json({ error: 'Post not found' })
+
+        const post = results[0]
+        connection.query(tagSql, [id], (err, tagResults) => {
+            if (err) return res.status(500).json({ error: err })
+            console.log(tagResults);
+
+            const tagLabels = tagResults.map(tag => tag.label)
+
+            post.tags = tagLabels
+
+            const responseData = {
+                data: post,
+            }
+            console.log(responseData);
+            res.status(200).json(responseData)
+
+        })
+
+
+    })
 }
 
 // add store function for create new post
